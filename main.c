@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include "line_edit.h"
+#include "parse.h"
 
 // #define ssizeof(type) ((intptr_t)(sizeof((type))))
 
@@ -39,6 +40,8 @@ int main() {
   puts("Press Ctrl+d to Exit");
 
   bool status;
+  Parse parse;
+  Parse* parser = Parse_ctor(&parse);
   for (;;) {
     const char* input = getInput("lispy> ");
     if (input == NULL) {
@@ -50,9 +53,12 @@ int main() {
     status = echoInput(input);
     assert(status == FN_SUCCESS);
 
+    Parse_andPrint(parser, input);
+
     freeInput(input);
   }
 
   puts("\nExiting...");
+  Parse_dtor(parser);
   return 0;
 }
