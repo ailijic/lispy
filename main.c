@@ -11,7 +11,7 @@
 static const bool FN_SUCCESS = false;
 static const bool FN_FAILURE = true;
 
-static void freeInput(const char* input) {
+__attribute__((nonnull)) static void freeInput(const char input[]) {
   assert(input != NULL);
 
   void* free_me = NULL;
@@ -20,7 +20,7 @@ static void freeInput(const char* input) {
   input = NULL;
 }
 
-static bool echoInput(const char str[1]) {
+__attribute__((nonnull)) static bool echoInput(const char str[]) {
   assert(str != NULL);
 
   int a = fputs("Echo: ", stdout);
