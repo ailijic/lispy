@@ -12,7 +12,7 @@ pointer-overflow,return,returns-nonnull-attribute,shift,shift-base,shift-exponen
 signed-integer-overflow,unreachable,vla-bound
 
 CC=clang
-CFLAGS=-std=c2x -Og -ggdb -g3 -I. -Weverything $(sanitize)
+CFLAGS=-std=c2x -Og -ggdb -g3 -I. -Weverything -Wno-padded $(sanitize)
 LDFLAGS=-ledit -lm
 
 all: $(prog)
