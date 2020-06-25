@@ -1,0 +1,4 @@
+[submodule "mpc"]
+	path = mpc
+	url = https://github.com/cmwt/mpc.git
+	branch = clean_clang_errors
