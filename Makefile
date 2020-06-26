@@ -12,7 +12,10 @@ pointer-overflow,return,returns-nonnull-attribute,shift,shift-base,shift-exponen
 signed-integer-overflow,unreachable,vla-bound
 
 CC=clang
-CFLAGS=-std=c2x -Og -ggdb -g3 -I. -Weverything -Wno-padded $(sanitize)
+warn_on=-Weverything
+warn_off=-Wno-missing-prototypes -Wno-padded
+warnings=$(warn_on) $(warn_off)
+CFLAGS=-std=c2x -Og -g3 -ggdb $(warnings) $(sanitize)
 LDFLAGS=-ledit -lm
 
 all: $(prog)
@@ -23,7 +26,7 @@ $(prog): $(obj)
 -include $(dep)
 
 mpc.o: mpc.c mpc.d mpc.h
-	$(CC) -Og $(sanitize) -o $@ -c $< -Wall -Wextra -Wpedantic
+	$(CC) -Og -g3 -ggdb $(sanitize) -o $@ -c $< -Wall -Wextra -Wpedantic -Wshadow
 
 %.d: %.c
 	@$(CPP) $(CFLAGS) $< -MM -MT $(@:.d=.o) >$@
