@@ -40,7 +40,7 @@ Parse* Parse_ctor(Parse* parser) {
   // Define the Language
   mpca_lang(MPCA_LANG_DEFAULT,
             "number   : /-?[0-9]+/ ; "
-            "operator : '+' | '-' | '*' | '/' ; "
+            "operator : '+' | '-' | '*' | '/' | '%' ;"
             "expr     : <number> | '(' <operator> <expr>+ ')' ; "
             "lispy    : /^/ <operator> <expr>+ /$/ ; ",
             Number, Operator, Expr, Lispy);
@@ -62,7 +62,7 @@ mpc_ast_t* Parse_andPrint(const Parse* t, const char* input) {
   if (mpc_parse("<stdin>", input, t->Lispy, &r)) {
     // On Success Print the AST
     // printf("Number of Nodes: %d\n", numberOfNodes(r.output));
-    mpc_ast_print(r.output);
+    // mpc_ast_print(r.output);
     // mpc_ast_delete(r.output);
     return r.output;
   } else {
