@@ -17,6 +17,7 @@ warn_off=-Wno-missing-prototypes -Wno-padded
 warnings=$(warn_on) $(warn_off)
 CFLAGS=-std=c2x -Og -g3 -ggdb $(warnings) $(sanitize)
 LDFLAGS=-ledit -lm
+MAKEFLAGS+=--quiet
 
 all: $(prog)
 
