@@ -8,8 +8,11 @@ typedef struct Parse {
   void* Lispy;
 } Parse;
 
+struct mpc_ast_t;
+typedef struct mpc_ast_t mpc_ast_t;
+
 Parse* Parse_ctor(Parse* t);
-__attribute__((nonnull)) void Parse_andPrint(const Parse* t, const char* input);
+mpc_ast_t* Parse_andPrint(const Parse* t, const char* input);
 void Parse_dtor(Parse* t);
 
 #endif  // PARSE_H

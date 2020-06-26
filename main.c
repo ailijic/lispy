@@ -4,13 +4,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "eval.h"
 #include "line_edit.h"
 #include "parse.h"
 
 // #define ssizeof(type) ((intptr_t)(sizeof((type))))
 
-static const bool FN_SUCCESS = false;
-static const bool FN_FAILURE = true;
+// static const bool FN_SUCCESS = false;
+// static const bool FN_FAILURE = true;
 
 __attribute__((nonnull)) static void freeInput(const char input[]) {
   assert(input != NULL);
@@ -18,9 +19,9 @@ __attribute__((nonnull)) static void freeInput(const char input[]) {
   void* free_me = NULL;
   memcpy(&free_me, &input, sizeof(void*));
   free(free_me);
-  input = NULL;
 }
 
+/*
 __attribute__((nonnull)) static bool echoInput(const char str[]) {
   assert(str != NULL);
 
@@ -34,12 +35,13 @@ __attribute__((nonnull)) static bool echoInput(const char str[]) {
     return FN_FAILURE;
   }
 }
+*/
 
 int main() {
   puts("Lispy Version 0.0.1");
   puts("Press Ctrl+d to Exit");
 
-  bool status;
+  // bool status;
   Parse parse;
   Parse* parser = Parse_ctor(&parse);
   for (;;) {
@@ -50,10 +52,14 @@ int main() {
 
     addToHistory(input);
 
-    status = echoInput(input);
-    assert(status == FN_SUCCESS);
+    // status = echoInput(input);
+    // assert(status == FN_SUCCESS);
 
-    Parse_andPrint(parser, input);
+    mpc_ast_t* ast = Parse_andPrint(parser, input);
+    if (ast != NULL) {
+      long result = eval(ast);
+      printf("%li\n", result);
+    }
 
     freeInput(input);
   }
