@@ -40,7 +40,7 @@ Parse* Parse_ctor(Parse* parser) {
   // Define the Language
   mpca_lang(MPCA_LANG_DEFAULT,
             "number   : /-?[0-9]+/ ; "
-            "operator : '+' | '-' | '*' | '/' | '%' | '^' ;"
+            "operator : '+' | '-' | '*' | '/' | '%' | '^' | \"min\" ;"
             "expr     : <number> | '(' <operator> <expr>+ ')' ; "
             "lispy    : /^/ <operator> <expr>+ /$/ ; ",
             Number, Operator, Expr, Lispy);

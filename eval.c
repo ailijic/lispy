@@ -18,8 +18,6 @@ static long f80Toi64(long double a) {
 
 long eval_op(long x, const char* str, long y) {
   char op = str[0];
-  assert((op == '+') || (op == '-') || (op == '*') || (op == '/') ||
-         (op == '%') || (op == '^'));
   if (op == '+') {
     return x + y;
   } else if (op == '-') {
@@ -36,8 +34,14 @@ long eval_op(long x, const char* str, long y) {
     long double ans = powl(x, y);
     return f80Toi64(ans);
   } else {
-    assert(NULL && "Should never get here");
-    return 0;
+    const char* const min = "min";
+    const size_t len = strlen(min);
+    if (strncmp(str, min, len) == 0) {
+      return (x < y) ? x : y;
+    } else {
+      assert(NULL && "Should never get here");
+      return 0;
+    }
   }
 }
 
