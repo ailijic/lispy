@@ -1,13 +1,25 @@
 #include <assert.h>
+#include <limits.h>
+#include <math.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "mpc.h"
 
+static long f80Toi64(long double a) {
+  // Make it so that ans will round to the nearest num when converted to int
+  a = (a >= 0.0L) ? (a + 0.5L) : (a - 0.5L);
+
+  assert(a >= (LONG_MIN * 1.0L));
+  assert(a <= (LONG_MAX * 1.0L));
+
+  return (long)a;
+}
+
 long eval_op(long x, const char* str, long y) {
   char op = str[0];
   assert((op == '+') || (op == '-') || (op == '*') || (op == '/') ||
-         (op == '%'));
+         (op == '%') || (op == '^'));
   if (op == '+') {
     return x + y;
   } else if (op == '-') {
@@ -20,6 +32,9 @@ long eval_op(long x, const char* str, long y) {
   } else if (op == '%') {
     assert(y != 0);
     return x % y;
+  } else if (op == '^') {
+    long double ans = powl(x, y);
+    return f80Toi64(ans);
   } else {
     assert(NULL && "Should never get here");
     return 0;
