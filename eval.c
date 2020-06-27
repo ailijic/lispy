@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <limits.h>
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -34,12 +35,18 @@ long eval_op(long x, const char* str, long y) {
     long double ans = powl(x, y);
     return f80Toi64(ans);
   } else {
-    const char* const min = "min";
-    const size_t len = strlen(min);
-    if (strncmp(str, min, len) == 0) {
+    const char* min = "min";
+    const char* max = "max";
+    size_t min_len = strlen(min);
+    size_t max_len = strlen(max);
+
+    if (strncmp(str, min, min_len) == 0) {
       return (x < y) ? x : y;
+    } else if (strncmp(str, max, max_len) == 0) {
+      return (x > y) ? x : y;
     } else {
-      assert(NULL && "Should never get here");
+      fprintf(stderr, "%s::%s::%i: Should never get here\n", __FILE__, __func__,
+              __LINE__);
       return 0;
     }
   }
